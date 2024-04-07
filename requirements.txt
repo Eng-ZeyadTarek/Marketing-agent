@@ -8,5 +8,4 @@ openai==1.16.2
 python_docx==1.1.0
 streamlit==1.33.0
 google-search-results==2.1.0
-chromadb==0.4.24
-db-sqlite3>=3.35.0
+chromadb==0.3.29
