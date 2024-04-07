@@ -6,3 +6,4 @@ langchain_openai==0.1.1
 openai==1.16.2
 python_docx==1.1.0
 streamlit==1.33.0
+google-search-results 2.1.0
