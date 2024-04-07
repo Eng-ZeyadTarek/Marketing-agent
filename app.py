@@ -118,12 +118,7 @@ if st.button('Confirm API Keys'):
         os.environ["SERPAPI_API_KEY"] = st.session_state['serpapi_key']
         os.environ["OPENAI_API_KEY"] = st.session_state['openai_key']
         openai.api_key = st.session_state['openai_key']
-        params = {
-            "engine": "google",
-            "gl": "eg",
-            "hl": "ar",
-        }
-        search = SerpAPIWrapper(params=params)
+        search = SerpAPIWrapper()
 
     else:
         st.error("Please enter both OpenAI and SerpAPI keys to proceed.")
