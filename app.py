@@ -75,6 +75,8 @@ def read_word_document(file_buffer):
     for i, paragraph in enumerate(paragraphs):
         paragraph_text = paragraph.strip()
         # Check for illustration in the next paragraph
+
+        
         next_paragraph_text = paragraphs[i + 1].strip() if i + 1 < len(paragraphs) else ""
 
         if is_question(paragraph_text) or (current_question and is_question(paragraph_text + " " + next_paragraph_text)):
@@ -118,7 +120,12 @@ if st.button('Confirm API Keys'):
         os.environ["SERPAPI_API_KEY"] = st.session_state['serpapi_key']
         os.environ["OPENAI_API_KEY"] = st.session_state['openai_key']
         openai.api_key = st.session_state['openai_key']
-        search = SerpAPIWrapper()
+        params = {
+            "engine": "google",
+            "gl": "eg",
+            "hl": "ar",
+        }
+        search = SerpAPIWrapper(params=params)
 
     else:
         st.error("Please enter both OpenAI and SerpAPI keys to proceed.")
