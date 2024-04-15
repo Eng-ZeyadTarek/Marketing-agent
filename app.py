@@ -264,7 +264,7 @@ if st.session_state.get('keys_confirmed', False):
             
             
             agent_2 = create_openai_tools_agent(main_model,main_tools, prompt)
-            agent_executor_2 = AgentExecutor(agent=agent, tools=main_tools, verbose=True, max_iterations = 500, max_tokens = 3000)
+            agent_executor_2 = AgentExecutor(agent=agent_2, tools=main_tools, verbose=True, max_iterations = 500, max_tokens = 3000)
             output = ""
             with st.spinner('Generating marketing strategy and campaign...'):
                 output = agent_executor_2.invoke({"input": questionaire_report})
