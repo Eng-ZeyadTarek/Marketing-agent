@@ -239,7 +239,7 @@ if st.session_state.get('keys_confirmed', False):
             agent_1 = create_openai_tools_agent(main_model,main_tools, prompt)
             agent_executor_1 = AgentExecutor(agent=agent_1, tools=main_tools, verbose=True, max_iterations = 500, max_tokens = 3000)
             with st.spinner('Creating matter pyramid...'):
-                matter_pyramid = agent_executor_1.invoke(({"input":"start"}))['output']
+                matter_pyramid = agent_executor_1.invoke(({"input":questionaire_report}))['output']
                 
             prompt.messages[0].prompt.template = f"""You are a brand called '{BRAND_NAME}', focusing on innovation and leadership within the '{INDUSTRY}' sector. you have been provided answers to the questionnaire and an online report for your brand, and use all the information within it to deliver a very long, very detailed, and creative marketing strategy and campaign about yourself as a cohesive narrative that not only outlines the tactical approach but also tells the story of '{BRAND_NAME}' and its journey to redefine '{BRAND_NAME}' in its industry.
 
