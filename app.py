@@ -202,7 +202,7 @@ if st.session_state.get('keys_confirmed', False):
                     2. Who are your main competitors?
 
                     Main answer and final report: Conducting In-depth Market Analysis
-                    - With the key information in hand, utilize the "search" tool to delve into:
+                    - With the key information in hand, utilize the "search" tool one time for each step to delve into:
                     1. Current market trends and analysis within the '{INDUSTRY}', identifying opportunities and threats.
                     2. Detailed information of each competitor (search for one competitor at a time) and put `company` after the company name, revealing potential advantages for '{BRAND_NAME}'.
                     3. Detailed strengths and weaknesses of each competitor (search for one competitor at a time) and put `company` after the company name.
