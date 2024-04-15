@@ -258,4 +258,3 @@ if st.session_state.get('keys_confirmed', False):
                 st.error(f"Please enter the brand name.")
             if not INDUSTRY:
                 st.error(f"Please enter the industry of your brand.")
-            
