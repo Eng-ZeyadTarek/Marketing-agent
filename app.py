@@ -220,7 +220,27 @@ if st.session_state.get('keys_confirmed', False):
                 online_report = sec_agent_executor.invoke(({"input":"start"}))['output']
             questionaire_report += "\n\n" + online_report
             
+
+
+            prompt.messages[0].prompt.template = f"""As a marketing bot armed with the detailed insights from {BRAND_NAME}'s survey responses and the comprehensive online report, your mission is to construct a Matter Pyramid that captures the brand's core identity within the {INDUSTRY}. Your output will be a pyramid divided into three tiers, each one echoing a key aspect of the brand's DNA: Functional Benefit, Culture and Values, and Emotional Benefit.
+
+            1. **Functional Benefit**: Delve into the brand's offerings and the unique solutions it provides for customer challenges. From this, determine and define the foundational differentiators that establish {BRAND_NAME} as a leader in the {INDUSTRY}. Summarize this under 'Functional Benefit,' showcasing the intelligent decisions the brand makes regarding environmental stewardship, investment value, and familial care.
+
+            2. **Culture and Values**: Reflect on {BRAND_NAME}'s internal ethos, its commitments, and the values it upholds. Under 'Culture and Values,' draft a narrative that puts the brand's consideration for its partners and stakeholders at the forefront, emphasizing a commitment to adding value and enriching every interaction.
+
+            3. **Emotional Benefit**: Glean from the survey and report the emotional threads that bind the customers to the brand. In 'Emotional Benefit,' narrate how {BRAND_NAME} offers peace of mind, illustrating a deep understanding of customer needs and the trust they place in the brand, ensuring they are perpetually 'in safe hands.'
+
+            Craft a response that creatively distills these three tiers into a compelling and brief narrative. This narrative should align with {BRAND_NAME}'s market position and articulate the unique story of how it stands out in the {INDUSTRY}."""
+
             
+            main_tools  = [Tool(name = "nothing", func =search.run, description = "never use me",
+            handle_tool_error = True) ]
+            main_model.max_tokens = 2000
+            agent_1 = create_openai_tools_agent(main_model,main_tools, prompt)
+            agent_executor_1 = AgentExecutor(agent=agent_1, tools=main_tools, verbose=True, max_iterations = 500, max_tokens = 3000)
+            with st.spinner('Creating matter pyramid...'):
+                matter_pyramid = agent_executor_1.invoke(({"input":"start"}))['output']
+                
             prompt.messages[0].prompt.template = f"""You are a brand called '{BRAND_NAME}', focusing on innovation and leadership within the '{INDUSTRY}' sector. you have been provided answers to the questionnaire and an online report for your brand, and use all the information within it to deliver a very long, very detailed, and creative marketing strategy and campaign about yourself as a cohesive narrative that not only outlines the tactical approach but also tells the story of '{BRAND_NAME}' and its journey to redefine '{BRAND_NAME}' in its industry.
 
             1. **Brand Insights**: Deeply analyze the input on {BRAND_NAME}'s market dilemma, solutions, product offerings, and credibility. Identify the core opportunities Ivy aims to capture and how it differentiates itself in addressing customer needs, and present it like you are talking about youself.
@@ -243,14 +263,13 @@ if st.session_state.get('keys_confirmed', False):
             DON'T USE ANY TOOL."""
             
             
-            main_model.max_tokens = 2000
-            agent = create_openai_tools_agent(main_model,[Tool(name = "search", description="", func=search.run, handle_tool_error = True)], prompt)
-            agent_executor = AgentExecutor(agent=agent, tools=[Tool(name = "search", description="", func=search.run, handle_tool_error = True)], verbose=True, max_iterations = 500, max_tokens = 3000)
+            agent_2 = create_openai_tools_agent(main_model,main_tools, prompt)
+            agent_executor_2 = AgentExecutor(agent=agent, tools=main_tools, verbose=True, max_iterations = 500, max_tokens = 3000)
             output = ""
             with st.spinner('Generating marketing strategy and campaign...'):
-                output = agent_executor.invoke({"input": questionaire_report})
+                output = agent_executor_2.invoke({"input": questionaire_report})
             
-            st.write(output['output'])
+            st.write(matter_pyramid + "\n\n" + output['output'])
         else:
             if not uploaded_file:
                 st.error(f"Please upload one docx document.")
