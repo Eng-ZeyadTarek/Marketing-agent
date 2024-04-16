@@ -177,7 +177,7 @@ if st.session_state.get('keys_confirmed', False):
             marketing_qa = RetrievalQA.from_chain_type(
                 llm=turbo,
                 chain_type="stuff",
-                retriever=marketing_retriever.as_retriever(search_kwargs={'k': 2}),
+                retriever=marketing_retriever.as_retriever(search_kwargs={'k': 1}),
                 chain_type_kwargs={"prompt": MARKETING_PROMPT, 'verbose': False},
                 
             )
@@ -204,15 +204,15 @@ if st.session_state.get('keys_confirmed', False):
                     Main answer and final report: Conducting In-depth Market Analysis
                     - With the key information in hand, utilize the "search" tool one time for each step to delve into:
                     1. Current market trends and analysis within the '{INDUSTRY}', identifying opportunities and threats.
-                    2. Detailed information of each competitor (search for one competitor at a time) and put `company` after the company name, revealing potential advantages for '{BRAND_NAME}'.
-                    3. Detailed strengths and weaknesses of each competitor (search for one competitor at a time) and put `company` after the company name.
-                    4. Pricing list for competitors' products/services, aiming to pinpoint market positioning opportunities.
+                    2. Detailed information of each competitor (maximum 3 competitors or less) (search for one competitor at a time) and put `company` after the company name, revealing potential advantages for '{BRAND_NAME}'.
+                    3. Detailed strengths and weaknesses of each competitor (maximum 3 competitors or less) (search for one competitor at a time) and put `company` after the company name.
+                    4. Pricing list for competitors' products/services (maximum 3 competitors or less), aiming to pinpoint market positioning opportunities.
 
                     Your objective is to synthesize the information of 'search' tool into a very detailed well-structured report that encompasses market trends, competitive analysis, and pricing insights. don't put recommendations on.
 
                     Embark on this mission with the initiative, utilizing your tools to their fullest potential without further prompts. Your findings will forge the path for '{BRAND_NAME}' to navigate the competitive landscape and seize market opportunities with precision and insight."""
 
-            sec_agent = create_openai_tools_agent(turbo, tools, prompt)
+            sec_agent = create_openai_tools_agent(main_model, tools, prompt)
             sec_agent_executor = AgentExecutor(agent=sec_agent, tools=tools, verbose=True, max_iterations = 500, max_tokens = 3000)
             
             online_report = ""
